@@ -1,3 +1,10 @@
-import {StyleSheet} from 'react-native/types';
+import { StyleSheet } from 'react-native';
 
-export const globalStyle = StyleSheet.create({});
+export const globalStyle = StyleSheet.create({
+  backgroundWhite: {
+    backgroundColor: '#fff',
+  },
+  fullSpace: {
+    flex: 1,
+  },
+});
