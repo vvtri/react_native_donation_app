@@ -8,11 +8,11 @@ import {
 export const searchStyle = StyleSheet.create({
   container: {
     backgroundColor: '#F3F5F9',
-    borderRadius: scaleHorizontal(50),
+    borderRadius: scaleHorizontal(15),
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: scaleVertical(12),
-    paddingLeft: scaleHorizontal(14),
+    paddingVertical: scaleVertical(10),
+    paddingLeft: scaleHorizontal(16),
     flexDirection: 'row',
   },
   inputText: {

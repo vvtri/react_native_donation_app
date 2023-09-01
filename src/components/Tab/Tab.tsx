@@ -19,7 +19,6 @@ const Tab = ({ title, isInactivated, onPress }: Props) => {
   return (
     <Pressable
       onPress={onPress}
-      disabled={isInactivated}
       style={[tabStyle.tab, isInactivated && tabStyle.inactivatedTab]}>
       <Text
         ref={textRef}
