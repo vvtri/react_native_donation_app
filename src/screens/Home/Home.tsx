@@ -6,12 +6,12 @@ import {
   ScrollView,
   Text,
   View,
+  Pressable,
 } from 'react-native';
 import bannerImg from '../../../assets/images/banner.png';
 import avtImg from '../../../assets/images/avt.jpg';
 import Header from '../../components/Header/Header';
 import Search from '../../components/Search/Search';
-import { resetState, selectUser } from '../../redux/slices/user.slice';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { globalStyle } from '../../styles/global.style';
 import { homeStyle } from './style';
@@ -23,20 +23,48 @@ import {
   setSelectedCategoryId,
 } from '../../redux/slices/category.slice';
 import Tab from '../../components/Tab/Tab';
-import { sleep } from '../../components/util/index.util';
+import { sleep } from '../../util/index.util';
+import {
+  Donation,
+  selectDonations,
+  setSelectedDonationId,
+} from '../../redux/slices/donation.slice';
+import SingleDonationItem from '../../components/SingleDonationItem/SingleDonationItem';
+import { StackScreenProps } from '@react-navigation/stack';
+import { Routes } from '../../navigations/Routes';
+import {
+  logout,
+  resetUserState,
+  selectUser,
+} from '../../redux/slices/user.slice';
+import { RootStackNavigator } from '../../navigations/RootNavigation';
+import { signOutFirebase } from '../../apis/auth.api';
 
-type Props = {};
+type Props = {} & StackScreenProps<RootStackNavigator, 'HOME'>;
 
-const Home = (props: Props) => {
+const Home = ({ navigation }: Props) => {
   const user = useAppSelector(selectUser);
   const categories = useAppSelector(selectCategories);
   const selectedCategoryId = useAppSelector(selectSelectedCategoryId);
+  const allDonations = useAppSelector(selectDonations);
   const dispatch = useAppDispatch();
 
   const [isFetching, setIsFetching] = useState(false);
   const [page, setPage] = useState(0);
   const [categoriesData, setCategoriesData] = useState<Category[]>([]);
+  const [donations, setDonations] = useState<Donation[]>([]);
   const pageSize = 4;
+
+  let selectedCategory = categories.find(
+    item => item.categoryId === selectedCategoryId,
+  );
+
+  const handlePressDonationItem = (donationId: number) => {
+    dispatch(setSelectedDonationId(donationId));
+    navigation.push(Routes.SINGLE_DONATION_ITEM, {
+      categoryInfo: selectedCategory as Category,
+    });
+  };
 
   const fetchMore = async () => {
     if (isFetching) return;
@@ -52,9 +80,22 @@ const Home = (props: Props) => {
     setIsFetching(false);
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+    signOutFirebase();
+  };
+
   useEffect(() => {
     fetchMore();
   }, []);
+
+  useEffect(() => {
+    setDonations(
+      allDonations.filter(item =>
+        item.categoryIds.includes(selectedCategoryId as number),
+      ),
+    );
+  }, [selectedCategoryId]);
 
   return (
     <SafeAreaView style={[globalStyle.backgroundWhite, globalStyle.fullSpace]}>
@@ -62,10 +103,15 @@ const Home = (props: Props) => {
         <View style={homeStyle.headerContainer}>
           <View>
             <Text style={homeStyle.headerIntroText}>Hello,</Text>
-            <Header title={`${user.firstName} ${user.lastName}.👋`} type={1} />
+            <Header title={`${user.displayName}.👋`} type={1} />
           </View>
 
-          <Image source={avtImg} style={homeStyle.headerAvtImage} />
+          <View>
+            <Pressable onPress={handleLogout}>
+              <Header type={3} title="Logout" />
+            </Pressable>
+            <Image source={avtImg} style={homeStyle.headerAvtImage} />
+          </View>
         </View>
 
         <View style={homeStyle.searchWrapper}>
@@ -97,6 +143,23 @@ const Home = (props: Props) => {
             </View>
           )}
         />
+
+        {donations.length > 0 && (
+          <View style={[homeStyle.donationContainer]}>
+            {donations.map(item => (
+              <View key={item.donationItemId} style={[homeStyle.donationItem]}>
+                <SingleDonationItem
+                  donationId={item.donationItemId}
+                  badgeTitle={selectedCategory?.name as string}
+                  donationTitle={item.name}
+                  imageUri={item.image}
+                  price={Number(item.price)}
+                  onPress={() => handlePressDonationItem(item.donationItemId)}
+                />
+              </View>
+            ))}
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,9 +1,16 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import {
   scaleFontSize,
   scaleHorizontal,
   scaleVertical,
 } from '../../utils/scale-dimension';
+
+const donationSectionMarginX = scaleHorizontal(24);
+const donationItemGap = scaleHorizontal(20);
+const donationItemWidth =
+  Dimensions.get('screen').width / 2 -
+  donationSectionMarginX -
+  donationItemGap / 2;
 
 export const homeStyle = StyleSheet.create({
   headerContainer: {
@@ -23,6 +30,7 @@ export const homeStyle = StyleSheet.create({
     marginTop: scaleVertical(5),
   },
   headerAvtImage: {
+    marginTop: scaleVertical(6),
     width: scaleHorizontal(50),
     height: scaleHorizontal(50),
   },
@@ -48,5 +56,16 @@ export const homeStyle = StyleSheet.create({
   },
   categoryWrapper: {
     marginRight: scaleHorizontal(10),
+  },
+  donationContainer: {
+    marginTop: scaleVertical(20),
+    marginHorizontal: donationSectionMarginX,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: donationItemGap,
+  },
+  donationItem: {
+    width: donationItemWidth,
   },
 });

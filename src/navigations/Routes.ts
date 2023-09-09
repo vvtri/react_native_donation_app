@@ -1,3 +1,7 @@
 export const Routes = {
-  HOME: 'HOME'
+  HOME: 'HOME',
+  SINGLE_DONATION_ITEM: 'SINGLE_DONATION_ITEM',
+  LOGIN: 'LOGIN',
+  REGISTRATION: 'REGISTRATION',
+  PAYMENT: 'PAYMENT',
 } as const;

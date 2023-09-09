@@ -12,7 +12,7 @@ export const badgeStyle = StyleSheet.create({
     borderRadius: scaleHorizontal(100),
     paddingVertical: scaleVertical(5),
     paddingHorizontal: scaleHorizontal(10),
-    alignSelf: 'center',
+    width: 'auto',
   },
   text: {
     fontFamily: 'Inter-SemiBold',

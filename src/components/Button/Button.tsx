@@ -13,7 +13,8 @@ const Button = ({ title, isDisabled, onPress }: Props) => {
     <Pressable
       onPress={onPress}
       disabled={isDisabled}
-      style={[buttonStyle.button, isDisabled && buttonStyle.disabledButton]}>
+      style={[buttonStyle.button, isDisabled && buttonStyle.disabledButton]}
+    >
       <Text style={buttonStyle.text}>{title}</Text>
     </Pressable>
   );

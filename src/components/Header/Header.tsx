@@ -6,9 +6,10 @@ type Props = {
   title: string;
   type: 1 | 2 | 3;
   color?: string;
+  numberOfLines?: number;
 };
 
-const Header = ({ title, type, color = '#000' }: Props) => {
+const Header = ({ title, type, color = '#000', numberOfLines }: Props) => {
   const getTitleStyle = (type: Props['type']) => {
     switch (type) {
       case 1:
@@ -24,7 +25,12 @@ const Header = ({ title, type, color = '#000' }: Props) => {
 
   return (
     <View>
-      <Text style={[getTitleStyle(type), { color }]}>{title}</Text>
+      <Text
+        style={[getTitleStyle(type), { color }]}
+        numberOfLines={numberOfLines}
+      >
+        {title}
+      </Text>
     </View>
   );
 };

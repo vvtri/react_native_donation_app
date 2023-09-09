@@ -1,0 +1,4 @@
+export const STRIPE_CONFIG = {
+  PUBLIC_KEY:
+    'pk_test_51LvHd3B8OArU0T6WnOhyg2I3VVJ5cI7gM2l6L7MmtLjbzQjbXxqpuAXCBHyQ7qA7QVNelG10XOy27jhT1SWCsqz100SOKUmeNp',
+};

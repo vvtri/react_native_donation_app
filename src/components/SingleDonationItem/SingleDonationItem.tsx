@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, View } from 'react-native';
+import { Image, View, Pressable } from 'react-native';
 import Badge from '../Badge/Tab';
 import Header from '../Header/Header';
 import { singleDonationItemStyle } from './style';
@@ -9,6 +9,8 @@ type Props = {
   price: number;
   donationTitle: string;
   imageUri: string;
+  donationId: number;
+  onPress?: () => any;
 };
 
 const SingleDonationItem = ({
@@ -16,9 +18,10 @@ const SingleDonationItem = ({
   donationTitle,
   imageUri,
   price,
+  onPress,
 }: Props) => {
   return (
-    <View>
+    <Pressable onPress={onPress}>
       <View style={singleDonationItemStyle.imageContainer}>
         <Image
           source={{ uri: imageUri }}
@@ -31,13 +34,18 @@ const SingleDonationItem = ({
       </View>
 
       <View style={singleDonationItemStyle.informationContainer}>
-        <Header title={donationTitle} type={3} color="#0A043C" />
+        <Header
+          title={donationTitle}
+          type={3}
+          color="#0A043C"
+          numberOfLines={1}
+        />
 
         <View style={singleDonationItemStyle.price}>
           <Header title={`$${price.toFixed(2)}`} type={3} color="#156CF7" />
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

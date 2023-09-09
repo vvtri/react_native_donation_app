@@ -1,15 +1,22 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  PayloadAction,
+  SliceCaseReducers,
+} from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
+export type UserData = {};
+
 export type UserState = {
-  firstName: string;
-  lastName: string;
+  isLoggedIn: boolean;
   avtUri: string;
+  displayName?: string;
+  token?: string;
+  email?: string;
 };
 
 const initialState: UserState = {
-  firstName: 'Nata',
-  lastName: 'Vo',
+  isLoggedIn: false,
   avtUri:
     'https://www.figma.com/file/xIST4wekmGsvoRDgHBVAMt/Donation-Mobile-App-(Community)?type=design&node-id=2-8&mode=dev',
 };
@@ -18,15 +25,23 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setFirstName(state, { payload }: PayloadAction<string>) {
-      state.firstName = payload;
+    setUserData(state: UserState, { payload }: PayloadAction<UserData>) {
+      state = { ...state, isLoggedIn: true, ...payload };
+      return state;
     },
-    resetState(state) {
-      state = initialState;
+    resetUserState(state) {
+      return initialState;
+    },
+    logout(state) {
+      return initialState;
+    },
+    setToken(state, { payload }: PayloadAction<UserState['token']>) {
+      state.token = payload;
     },
   },
 });
 
-export const { setFirstName, resetState } = userSlice.actions;
+export const { setUserData, resetUserState, logout, setToken } =
+  userSlice.actions;
 export const selectUser = ({ user }: RootState) => user;
 export default userSlice.reducer;

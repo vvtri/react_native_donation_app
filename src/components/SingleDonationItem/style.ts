@@ -14,6 +14,7 @@ export const singleDonationItemStyle = StyleSheet.create({
     position: 'absolute',
     top: scaleVertical(18),
     left: scaleHorizontal(20),
+    alignItems: 'flex-start',
   },
   informationContainer: {
     marginTop: scaleVertical(16),
